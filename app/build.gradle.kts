@@ -7,9 +7,7 @@ plugins {
 
 android {
     namespace = "com.custom.youtube"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24
@@ -57,7 +55,7 @@ afterEvaluate {
             create<MavenPublication>("release") {
                 from(components["release"])
                 groupId = "com.github.Niraj0009"
-                artifactId = "CustomYoutube"
+                artifactId = "YouTube"
                 version = "1.0.0"
             }
         }
