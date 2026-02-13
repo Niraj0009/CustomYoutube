@@ -2,9 +2,11 @@ package com.custom.youtube
 
 import android.app.Activity
 import android.content.pm.ActivityInfo
+import android.os.Build
 import android.view.View
 import android.webkit.WebChromeClient
 import android.widget.FrameLayout
+import androidx.annotation.RequiresApi
 
 class MyWebChromeClient(
     private val activity: Activity
@@ -15,6 +17,7 @@ class MyWebChromeClient(
     private var originalSystemUiVisibility = 0
     private var originalOrientation = 0
 
+    @RequiresApi(Build.VERSION_CODES.R)
     override fun onShowCustomView(view: View?, callback: CustomViewCallback?) {
         if (customView != null) {
             callback?.onCustomViewHidden()
@@ -24,7 +27,6 @@ class MyWebChromeClient(
         customView = view
         customViewCallback = callback
 
-        originalSystemUiVisibility = activity.window.decorView.systemUiVisibility
         originalOrientation = activity.requestedOrientation
 
         (activity.window.decorView as FrameLayout).addView(
@@ -35,20 +37,28 @@ class MyWebChromeClient(
             )
         )
 
-        activity.window.decorView.systemUiVisibility =
-            View.SYSTEM_UI_FLAG_FULLSCREEN or
-                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
-                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        activity.window.insetsController?.hide(
+            android.view.WindowInsets.Type.systemBars()
+        )
+
+        activity.window.insetsController?.systemBarsBehavior =
+            android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 
         activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
     }
 
+
+    @RequiresApi(Build.VERSION_CODES.R)
     override fun onHideCustomView() {
         (activity.window.decorView as FrameLayout).removeView(customView)
         customView = null
         customViewCallback?.onCustomViewHidden()
 
-        activity.window.decorView.systemUiVisibility = originalSystemUiVisibility
+        activity.window.insetsController?.show(
+            android.view.WindowInsets.Type.systemBars()
+        )
+
         activity.requestedOrientation = originalOrientation
     }
+
 }
