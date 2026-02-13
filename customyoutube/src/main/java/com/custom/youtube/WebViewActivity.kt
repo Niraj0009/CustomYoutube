@@ -17,7 +17,8 @@ class WebViewActivity : AppCompatActivity() {
         setContentView(R.layout.activity_web_view)
         webView = findViewById<WebView>(R.id.webview);
         setupWebView()
-        loadYoutubeVideo("roz9sXFkTuE")
+        val videoId = intent.getStringExtra(EXTRA_VIDEO_ID) ?: ""
+        loadYoutubeVideo(videoId)
     }
 
     private fun setupWebView() {
@@ -72,5 +73,15 @@ class WebViewActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         webView.onResume()
+    }
+
+    companion object {
+        const val EXTRA_VIDEO_ID = "VIDEO_ID"
+
+        fun start(context: android.content.Context, videoId: String) {
+            val intent = android.content.Intent(context, WebViewActivity::class.java)
+            intent.putExtra(EXTRA_VIDEO_ID, videoId)
+            context.startActivity(intent)
+        }
     }
 }
