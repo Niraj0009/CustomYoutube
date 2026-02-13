@@ -1,5 +1,4 @@
 plugins {
-   // alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.android.library")
     id("maven-publish")
@@ -12,8 +11,6 @@ android {
     defaultConfig {
         minSdk = 24
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -55,7 +52,7 @@ afterEvaluate {
             create<MavenPublication>("release") {
                 from(components["release"])
                 groupId = "com.github.Niraj0009"
-                artifactId = "YouTube"
+                artifactId = "CustomYoutube"
                 version = "1.0.1"
             }
         }

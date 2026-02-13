@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "YouTube"
-include(":library")
+include(":customyoutube")
