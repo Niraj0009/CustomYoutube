@@ -3,7 +3,7 @@ package com.custom.youtube
 import android.webkit.WebSettings
 import android.webkit.WebView
 
-class YoutubePlayerHelper(private val webView: WebView) {
+public class YoutubePlayerHelper(private val webView: WebView) {
 
     init {
         setupWebView()

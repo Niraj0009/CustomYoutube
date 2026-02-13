@@ -17,6 +17,7 @@ class WebViewActivity : AppCompatActivity() {
         setContentView(R.layout.activity_web_view)
         webView = findViewById<WebView>(R.id.webview);
         setupWebView()
+        YoutubePlayerHelper(webView);
         val videoId = intent.getStringExtra(EXTRA_VIDEO_ID) ?: ""
         loadYoutubeVideo(videoId)
     }
