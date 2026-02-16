@@ -1,11 +1,12 @@
 package com.example.zoomvideosdk
 
+import android.app.Activity
 import android.webkit.WebSettings
 import android.webkit.WebView
 import com.custom.youtube.MyWebChromeClient
 import com.custom.youtube.WebViewActivity
 
-class YoutubePlayerHelper(private val webView: WebView, val  activity: WebViewActivity) {
+class YoutubePlayerHelper(private val webView: WebView, val activity: Activity) {
 
     init {
         setupWebView()
