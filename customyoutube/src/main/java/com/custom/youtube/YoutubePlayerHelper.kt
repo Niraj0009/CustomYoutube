@@ -1,9 +1,11 @@
-package com.custom.youtube
+package com.example.zoomvideosdk
 
 import android.webkit.WebSettings
 import android.webkit.WebView
+import com.custom.youtube.MyWebChromeClient
+import com.custom.youtube.WebViewActivity
 
-public class YoutubePlayerHelper(private val webView: WebView) {
+class YoutubePlayerHelper(private val webView: WebView, val  activity: WebViewActivity) {
 
     init {
         setupWebView()
@@ -11,11 +13,14 @@ public class YoutubePlayerHelper(private val webView: WebView) {
 
     private fun setupWebView() {
         val settings: WebSettings = webView.settings
+        settings.userAgentString =
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome Safari"
         settings.javaScriptEnabled = true
         settings.domStorageEnabled = true
         settings.loadWithOverviewMode = true
         settings.useWideViewPort = true
         settings.mediaPlaybackRequiresUserGesture = false
+        webView.webChromeClient = MyWebChromeClient(activity)
     }
 
     fun loadVideo(videoId: String) {

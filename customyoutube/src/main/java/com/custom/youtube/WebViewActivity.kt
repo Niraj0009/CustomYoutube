@@ -8,9 +8,11 @@ import android.webkit.WebSettings
 import android.webkit.WebView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.example.zoomvideosdk.YoutubePlayerHelper
 
 class WebViewActivity : AppCompatActivity() {
     private lateinit var webView: WebView
+    lateinit var youtubePlayerHelper:YoutubePlayerHelper
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,21 +20,22 @@ class WebViewActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_web_view)
         webView = findViewById<WebView>(R.id.webview);
-        setupWebView()
-        YoutubePlayerHelper(webView);
-        val settings = webView?.getSettings()
-        val ua = settings?.getUserAgentString()
-        settings?.setUserAgentString(ua + " MY_ANDROID_WEBVIEW");
+      //  setupWebView()
+        youtubePlayerHelper = YoutubePlayerHelper(webView,this);
+        val settings = webView.getSettings()
+        val ua = settings.userAgentString
+        settings.setUserAgentString("$ua MY_ANDROID_WEBVIEW");
         if (VERSION.SDK_INT >= 19) {
-            webView!!.setLayerType(View.LAYER_TYPE_HARDWARE, null)
+            webView.setLayerType(View.LAYER_TYPE_HARDWARE, null)
         } else {
-            webView!!.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
+            webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
         }
         val videoId = intent.getStringExtra(EXTRA_VIDEO_ID) ?: ""
-        loadYoutubeVideo(videoId)
+        webView.setWebChromeClient(MyWebChromeClient(this));
+        youtubePlayerHelper.loadVideo(videoId)
     }
 
-    private fun setupWebView() {
+   /* private fun setupWebView() {
         val settings: WebSettings = webView.settings
         settings.userAgentString =
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome Safari"
@@ -73,9 +76,13 @@ class WebViewActivity : AppCompatActivity() {
         </body>
         </html>
     """.trimIndent()
-        webView.loadDataWithBaseURL("https://www.youtube.com", html, "text/html", "UTF-8", null)
+        webView.loadDataWithBaseURL("https://www.youtube.com",
+            html,
+            "text/html",
+            "UTF-8",
+            null)
     }
-
+*/
     override fun onPause() {
         super.onPause()
         webView.onPause()
