@@ -1,7 +1,9 @@
 package com.custom.youtube
 
 import android.annotation.SuppressLint
+import android.os.Build.VERSION
 import android.os.Bundle
+import android.view.View
 import android.webkit.WebSettings
 import android.webkit.WebView
 import androidx.activity.enableEdgeToEdge
@@ -18,6 +20,14 @@ class WebViewActivity : AppCompatActivity() {
         webView = findViewById<WebView>(R.id.webview);
         setupWebView()
         YoutubePlayerHelper(webView);
+        val settings = webView?.getSettings()
+        val ua = settings?.getUserAgentString()
+        settings?.setUserAgentString(ua + " MY_ANDROID_WEBVIEW");
+        if (VERSION.SDK_INT >= 19) {
+            webView!!.setLayerType(View.LAYER_TYPE_HARDWARE, null)
+        } else {
+            webView!!.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
+        }
         val videoId = intent.getStringExtra(EXTRA_VIDEO_ID) ?: ""
         loadYoutubeVideo(videoId)
     }
